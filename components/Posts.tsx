@@ -8,6 +8,7 @@ const supabase = createClient();
 
 const Posts = async () => {
   const result = await supabase.from("posts").select("*");
+  console.log(result);
   // .order("created_at", { ascending: false });
 
   return (

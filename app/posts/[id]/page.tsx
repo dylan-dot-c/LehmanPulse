@@ -4,11 +4,7 @@ const client = createClient();
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
-  const { data, error } = await client
-    .from("posts")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const { data } = await client.from("posts").select("*").eq("id", id).single();
 
   return (
     <div>

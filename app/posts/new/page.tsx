@@ -28,6 +28,7 @@ const Page = () => {
   const [postContent, setPostContent] = useState("");
   const [postType, setPostType] = useState("");
   const [postImg, setPostImg] = useState("");
+  //   const
 
   const submitForm = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -59,7 +60,7 @@ const Page = () => {
     console.log(postName, postContent, postType, postImg);
   };
   return (
-    <div className="p-4">
+    <div className="p-8 bg-white max-w-3xl mx-auto rounded-xl">
       <h1 className="text-center text-4xl font-bold">
         Learn To Code and create a new post
       </h1>

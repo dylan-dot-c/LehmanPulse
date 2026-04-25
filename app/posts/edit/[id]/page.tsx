@@ -100,9 +100,13 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
     load();
   });
   return (
-    <div className="p-4">
-      <h1 className="text-center text-4xl font-bold">Edit Post</h1>
-      <Button onClick={() => deletePost(postID)}>Delete Post</Button>
+    <div className="p-8 mt-6 bg-white max-w-2xl mx-auto rounded-xl">
+      <div className="flex justify-center gap-4">
+        <h1 className="text-center text-4xl font-bold">Edit Post</h1>
+        <Button variant={"destructive"} onClick={() => deletePost(postID)}>
+          Delete Posts
+        </Button>
+      </div>
       <div>
         <form className="max-w-3xl m-auto" onSubmit={(e) => submitForm(e)}>
           <FieldGroup>
@@ -154,7 +158,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
               </Field>
             </div>
             <Field>
-              <Input type="submit" value="Update Post" />
+              <Button type="submit">Update Post</Button>
             </Field>
           </FieldGroup>
         </form>

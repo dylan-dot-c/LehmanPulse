@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowBigDown, ArrowBigUp, ArrowRight } from "lucide-react";
 
 import type { Post } from "./Posts";
 import { Button } from "./ui/button";
@@ -51,7 +51,12 @@ const PostCard = ({ post }: props) => {
       <CardContent>
         <p className=" line-clamp-2">{post.content}</p>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-between">
+        <div className="bg-yellow-200 rounded-xl p-2 flex gap-1">
+          <ArrowBigUp />
+          {post.upvotes}
+          <ArrowBigDown />
+        </div>
         <Button variant={"link"} className="p-0 block">
           <Link href={`/posts/${post.id}`} className="flex items-center gap-1">
             View Post <ArrowRight />

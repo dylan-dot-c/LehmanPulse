@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/lib/database.types";
-import Image from "next/image";
-import Link from "next/link";
+
+import PostCard from "./PostCard";
 
 export type Post = Database["public"]["Tables"]["posts"]["Row"];
 const supabase = createClient();
@@ -13,22 +13,9 @@ const Posts = async () => {
   // .order("created_at", { ascending: false });
 
   return (
-    <div>
+    <div className="grid grid-cols-3 gap-4">
       {result.data?.map((item) => (
-        <Link key={item.id} href={`/posts/${item.id}`}>
-          <div>
-            {item.title} {item.upvotes}
-            {item.img_url && (
-              <Image
-                loading="lazy"
-                width={300}
-                height={100}
-                src={item.img_url}
-                alt="psot aimg"
-              />
-            )}
-          </div>
-        </Link>
+        <PostCard post={item} key={item.id} />
       ))}
     </div>
   );

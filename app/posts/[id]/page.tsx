@@ -1,42 +1,6 @@
-import { use, Suspense } from "react";
-import { createClient } from "@/lib/supabase/client";
-import Image from "next/image";
-import Comments from "@/components/Comments";
+import { Suspense } from "react";
+import PostContent from "./post-content";
 
-// Async component — awaiting is fine here inside Suspense
-const PostContent = async ({ id }: { id: string }) => {
-  const client = createClient();
-  const { data } = await client.from("posts").select("*").eq("id", id).single();
-
-  if (!data) return <p>Post not found.</p>;
-
-  return (
-    <div className="">
-      <div className="flex gap-4 bg-white p-4 rounded-xl">
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold">{data.title}</h1>
-          <p className="whitespace-pre-wrap">{data.content}</p>
-        </div>
-        {data.img_url && (
-          <div className="relative w-48 h-48 shrink-0">
-            <Image
-              src={data.img_url}
-              alt={data.title ?? "Post image"}
-              fill
-              className="object-cover rounded"
-            />
-          </div>
-        )}
-      </div>
-      <div className="bg-white p-4 rounded-xl my-4">
-        <h2 className="m-0 mb-4 text-center">Comments</h2>
-        <Comments post_id={data.id} />
-      </div>
-    </div>
-  );
-};
-
-// Fallback shown while PostContent is loading
 const PostSkeleton = () => (
   <div className="flex gap-4 animate-pulse">
     <div className="flex-1 space-y-3">
@@ -48,9 +12,8 @@ const PostSkeleton = () => (
   </div>
 );
 
-// Page stays sync — use React.use() to unwrap the params Promise
-const Page = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = use(params); // ✅ unwraps Promise without await
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
 
   return (
     <div className="max-w-2xl mx-auto py-8">

@@ -13,7 +13,7 @@ import type { Post } from "./Posts";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
-function timeAgo(date: Date) {
+export function timeAgo(date: Date) {
   const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
 
   const intervals = [

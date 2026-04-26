@@ -14,39 +14,71 @@ export type Database = {
   };
   public: {
     Tables: {
+      comments: {
+        Row: {
+          comment_id: string;
+          content: string;
+          created_at: string;
+          post_id: string;
+          user_id: string;
+        };
+        Insert: {
+          comment_id?: string;
+          content: string;
+          created_at?: string;
+          post_id: string;
+          user_id: string;
+        };
+        Update: {
+          comment_id?: string;
+          content?: string;
+          created_at?: string;
+          post_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "comments_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       posts: {
         Row: {
-          content: string | null;
+          content: string;
           created_at: string;
           id: string;
           img_url: string | null;
-          post_type: string | null;
+          post_type: string;
           slug: string | null;
-          title: string | null;
+          title: string;
           upvotes: number;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
-          content?: string | null;
+          content: string;
           created_at?: string;
           id: string;
           img_url?: string | null;
-          post_type?: string | null;
+          post_type: string;
           slug?: string | null;
-          title?: string | null;
-          upvotes?: number | null;
-          user_id?: string | null;
+          title: string;
+          upvotes?: number;
+          user_id?: string;
         };
         Update: {
-          content?: string | null;
+          content?: string;
           created_at?: string;
           id?: string;
           img_url?: string | null;
-          post_type?: string | null;
+          post_type?: string;
           slug?: string | null;
-          title?: string | null;
-          upvotes?: number | null;
-          user_id?: string | null;
+          title?: string;
+          upvotes?: number;
+          user_id?: string;
         };
         Relationships: [];
       };

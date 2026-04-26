@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { createClient } from "@/lib/supabase/client";
 import { nanoid } from "nanoid";
+import { redirect } from "next/navigation";
 // import { useState } from "react";
 const client = createClient();
 type UploadType = "url" | "upload";
@@ -59,7 +60,7 @@ const Page = () => {
     console.log(data, error);
     if (!error) {
       alert("Post Created");
-      navigation.navigate("/posts");
+      redirect("/posts");
     }
 
     console.log(postName, postContent, postType, postImg);

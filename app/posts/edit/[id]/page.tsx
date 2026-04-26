@@ -21,6 +21,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { nanoid } from "nanoid";
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 // import { useState } from "react";
 const client = createClient();
 
@@ -74,7 +75,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
     console.log(data, error);
     if (!error) {
       alert("Post Created");
-      navigation.navigate("/posts");
+      redirect("/posts");
     }
 
     console.log(postName, postContent, postType, postImg);
@@ -85,7 +86,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
 
     if (data) {
       alert("Well done");
-      navigation.navigate("/posts");
+      redirect("/posts");
     }
   };
 

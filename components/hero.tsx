@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { NextLogo } from "./next-logo";
 import { SupabaseLogo } from "./supabase-logo";
+import { Button } from "./ui/button";
 
 export function Hero() {
   return (
@@ -37,6 +39,12 @@ export function Hero() {
         >
           Next.js
         </a>
+        <br />
+        <Button variant={"outline"} className="bg-red-500 text-white">
+          <Link type="button" href="/posts">
+            See all posts
+          </Link>
+        </Button>
       </p>
       <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
     </div>

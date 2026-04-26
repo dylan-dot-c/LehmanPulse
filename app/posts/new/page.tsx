@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitEvent, useState } from "react";
+import { ChangeEvent, SubmitEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Field,
@@ -8,6 +8,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -22,13 +23,17 @@ import { createClient } from "@/lib/supabase/client";
 import { nanoid } from "nanoid";
 // import { useState } from "react";
 const client = createClient();
+type UploadType = "url" | "upload";
+const BASE_IMG_URL =
+  "https://hupmdqrgdzxsumclvopj.supabase.co/storage/v1/object/public/";
 
 const Page = () => {
   const [postName, setPostName] = useState("");
   const [postContent, setPostContent] = useState("");
   const [postType, setPostType] = useState("");
   const [postImg, setPostImg] = useState("");
-  //   const
+  const [imgURL, setIMGURL] = useState("");
+  const [uploadType, setUploadType] = useState<UploadType>("url");
 
   const submitForm = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -47,7 +52,7 @@ const Page = () => {
       title: postName,
       content: postContent,
       post_type: postType,
-      img_url: postImg,
+      img_url: uploadType == "upload" ? imgURL : postImg,
       user_id: user?.id,
     });
 
@@ -58,6 +63,27 @@ const Page = () => {
     }
 
     console.log(postName, postContent, postType, postImg);
+  };
+
+  const onFileChange = async (
+    e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
+  ) => {
+    if (e.target.files) {
+      const dataFile = e.target.files[0];
+      const fileExt = dataFile.name.split(".")[1];
+      // upload to supabase
+      const { data, error } = await client.storage
+        .from("post_images")
+        .upload(`/posts/${nanoid(6)}.${fileExt}`, dataFile);
+
+      if (error) {
+        alert("Upload fail");
+        alert(error.message);
+      } else {
+        console.log(data);
+        setIMGURL(`${BASE_IMG_URL}${data.fullPath}`);
+      }
+    }
   };
   return (
     <div className="p-8 bg-white max-w-3xl mx-auto rounded-xl">
@@ -87,12 +113,53 @@ const Page = () => {
                 onChange={(e) => setPostContent(e.target.value)}
               />
             </Field>
+            <div>
+              <Tabs defaultValue="url">
+                <TabsList>
+                  <TabsTrigger value="url" onClick={() => setUploadType("url")}>
+                    Paste URL
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="upload"
+                    onClick={() => setUploadType("upload")}
+                  >
+                    Upload Image
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="url">
+                  <Field>
+                    <FieldLabel>Image URL</FieldLabel>
+                    <Input
+                      type="text"
+                      id="img"
+                      placeholder="https://..."
+                      value={postImg}
+                      onChange={(e) => setPostImg(e.target.value)}
+                    />
+                    <FieldDescription>Allowed Types: images/*</FieldDescription>
+                  </Field>
+                </TabsContent>
+                <TabsContent value="upload">
+                  <Field>
+                    <div className="flex gap-4">
+                      <FieldLabel>Img Upload</FieldLabel>
+                      <span className="text-red-400 text-xs">
+                        {imgURL && "File Saved"}
+                      </span>
+                    </div>
+                    <Input
+                      onChange={(e) => onFileChange(e)}
+                      type="file"
+                      accept="image/*"
+                      id="img"
+                      placeholder="image URL"
+                    />
+                    <FieldDescription>Allowed Types: images/*</FieldDescription>
+                  </Field>
+                </TabsContent>
+              </Tabs>
+            </div>
             <div className="grid grid-cols-2 gap-4">
-              <Field>
-                <FieldLabel>Img Upload</FieldLabel>
-                <Input type="file" id="img" accept="image/*" />
-                <FieldDescription>Allowed Types: images/*</FieldDescription>
-              </Field>
               <Field>
                 <FieldLabel>Post Type</FieldLabel>
                 <Select

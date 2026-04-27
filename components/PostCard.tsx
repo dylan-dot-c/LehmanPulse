@@ -36,14 +36,19 @@ export function timeAgo(date: Date) {
 }
 
 type props = {
-  post: Post;
+  post: Post & { user_emails: { email: string } };
 };
 
 const PostCard = ({ post }: props) => {
   return (
     <Card className="w-52 w-xs">
       <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
+        <CardTitle>
+          {post.title} ▪{" "}
+          <span className="text-purple-800">
+            {post.user_emails.email.split("@")[0]}
+          </span>
+        </CardTitle>
         <CardDescription className="truncate">
           {post.post_type} ▪ {timeAgo(new Date(post.created_at))}
         </CardDescription>

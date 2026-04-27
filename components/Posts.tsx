@@ -29,7 +29,9 @@ const Posts = () => {
 
   useEffect(() => {
     const getAllPosts = async () => {
-      const { data, error } = await supabase.from("posts").select("*");
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*, user_emails(email)");
 
       if (data) {
         setPosts(data);

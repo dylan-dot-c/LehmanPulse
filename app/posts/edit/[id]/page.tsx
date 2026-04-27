@@ -82,9 +82,9 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   };
 
   const deletePost = async (post_id: string) => {
-    const { data } = await client.from("posts").delete().eq("id", post_id);
+    const { error } = await client.from("posts").delete().eq("id", post_id);
 
-    if (data) {
+    if (!error) {
       alert("Well done");
       redirect("/posts");
     }

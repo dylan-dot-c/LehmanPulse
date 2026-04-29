@@ -43,7 +43,14 @@ const PostCard = ({ post }: props) => {
   return (
     <Card className="w-52 w-xs">
       <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
+        <CardTitle>
+          {post.title} ▪{" "}
+          <span className="text-purple-800">
+            {post.user_emails.email
+              ? `${post.user_emails.email.split("@")[0]}`
+              : "Unknown"}
+          </span>
+        </CardTitle>
         <CardDescription className="truncate">
           {post.post_type} ▪ {timeAgo(new Date(post.created_at))}
         </CardDescription>

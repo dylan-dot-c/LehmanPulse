@@ -1,10 +1,15 @@
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import Image from "next/image";
 import Comments from "@/components/Comments";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const PostContent = async ({ id }: { id: string }) => {
-  const client = createClient();
+  const client = await createClient();
   const { data } = await client.from("posts").select("*").eq("id", id).single();
+  const { data: res } = await client.auth.getUser();
+
+  console.log(data, res);
 
   if (!data) return <p>Post not found.</p>;
 
@@ -13,7 +18,17 @@ const PostContent = async ({ id }: { id: string }) => {
       <div className="flex gap-4 bg-white p-4 rounded-xl">
         <div className="flex-1">
           <h1 className="text-2xl font-bold">{data.title}</h1>
-          <p className="whitespace-pre-wrap">{data.content}</p>
+          <div className="flex gap-4">
+            <span>Posted By: {res.user?.email?.split("@")[0]}</span>
+            {res.user?.id == data.user_id && (
+              <Link href={`/posts/edit/${data.id}`}>
+                <Button variant={"secondary"}>Edit Post</Button>
+              </Link>
+            )}
+          </div>
+          <div className="flex">
+            <p className="whitespace-pre-wrap">{data.content}</p>
+          </div>
         </div>
         {data.img_url && (
           <div className="relative w-48 h-48 shrink-0">

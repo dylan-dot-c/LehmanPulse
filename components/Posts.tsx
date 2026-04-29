@@ -16,7 +16,9 @@ import {
   SelectValue,
 } from "./ui/select";
 
-export type Post = Database["public"]["Tables"]["posts"]["Row"];
+export type Post = Database["public"]["Tables"]["posts"]["Row"] & {
+  user_emails: { email: string | null };
+};
 const supabase = createClient();
 // page to get all posts from db
 

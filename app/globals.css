@@ -1,11 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap");
 @tailwind base;
-
 @custom-variant dark (&:is(.dark *));
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    --font-playfair: Playfair, sans-serif;
     --background: 220, 10%, 92%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -116,6 +117,10 @@
 
   code {
     @apply bg-gray-100 text-gray-800 px-1 py-0.5 rounded font-mono text-sm;
+  }
+
+  .links {
+    @apply text-green-500 font-semibold;
   }
 }
 

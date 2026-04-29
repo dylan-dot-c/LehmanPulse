@@ -8,11 +8,11 @@ import { AuthButton } from "@/components/auth-button";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center">
+    <main className="min-h-screen flex flex-col items-center bg-green-200">
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
         <nav className="w-full flex items-center justify-between border-b border-b-foreground/10 h-20 max-w-7xl">
-          <h1 className="text-blue-500 italic font-serif">LehmanPulse</h1>
-          <div className="links flex items-center gap-4">
+          <h1 className="text-green-600 italic font-serif">LehmanLife</h1>
+          <div className="links flex items-center gap-4 text-green-700">
             <Link href={"/"} className="">
               Home
             </Link>
@@ -31,11 +31,11 @@ export default function Home() {
             </Button> */}
           </div>
         </nav>
-        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
+        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5 justify-center items-center">
           <Hero />
         </div>
 
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
+        <footer className="w-full flex items-center justify-center  mx-auto text-center text-xs gap-8 py-16">
           <p>
             Powered by{" "}
             <a
